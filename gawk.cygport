@@ -1,6 +1,6 @@
 NAME="gawk"
 VERSION=4.1.4
-RELEASE=1
+RELEASE=2
 CATEGORY="Interpreters Base"
 SUMMARY="GNU awk, a pattern scanning and processing language"
 DESCRIPTION="The gawk package contains the GNU version of awk, a text
@@ -13,9 +13,53 @@ Gawk is considered to be a standard Linux tool for processing text."
 HOMEPAGE="http://www.gnu.org/software/gawk/"
 SRC_URI="ftp://ftp.gnu.org/gnu/gawk/gawk-${VERSION}.tar.xz"
 
+# conflicts with newer texinfo-tex
+DISTCLEANFILES="doc/texinfo.tex"
+
+PKG_NAMES="gawk gawk-devel gawk-doc"
+gawk_CONTENTS="
+  --exclude=html
+  --exclude=*.html
+  --exclude=*.pdf
+  usr/bin/*awk*
+  usr/lib/gawk/
+  usr/libexec/awk/
+  usr/share/awk/
+  usr/share/doc/gawk/
+  usr/share/info/gawk*.info*
+  usr/share/locale/*/LC_MESSAGES/gawk.mo
+  usr/share/man/man1/*
+  usr/share/man/man3/*
+"
+gawk_devel_CATEGORY="Devel"
+gawk_devel_CONTENTS="
+  usr/include/gawkapi.h
+"
+gawk_doc_CATEGORY="Doc"
+gawk_doc_CONTENTS="
+  usr/share/doc/gawk/html/
+  usr/share/doc/gawk/*.html
+  usr/share/doc/gawk/*.pdf
+"
+
+src_compile() {
+  cd ${S}
+  cygautoreconf
+  cd ${B}
+  cygconf
+  cygmake
+  cd ${B}/doc
+  cygmake -j1 html pdf
+  mkdir -p html/gawk{,inet}
+  makeinfo --html -I ${S}/doc -o html/gawk ${S}/doc/gawk.texi
+  makeinfo --html -I ${S}/doc -o html/gawkinet ${S}/doc/gawkinet.texi
+}
+
 src_install() {
   cd ${B}
   cyginstall
+  dodoc doc/*.{html,pdf} doc/html/
+  rm -f ${D}/usr/lib/gawk/*.dll.a
   cd ${D}/usr/share/man/man1
   echo ".so gawk.1" > awk.1
 }
