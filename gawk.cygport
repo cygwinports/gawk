@@ -1,10 +1,21 @@
 NAME="gawk"
-VERSION=4.0.2
+VERSION=4.1.4
 RELEASE=1
-CATEGORY="Base"
-SUMMARY="GNU awk interpreter"
-DESCRIPTION="The awk utility interprets a special-purpose programming language
-that makes it possible to handle simple data-reformatting jobs with just a few
-lines of code."
+CATEGORY="Interpreters Base"
+SUMMARY="GNU awk, a pattern scanning and processing language"
+DESCRIPTION="The gawk package contains the GNU version of awk, a text
+processing utility. Awk interprets a special-purpose programming
+language to do quick and easy text pattern matching and
+reformatting jobs.
+
+Install the gawk package if you need a text processing utility.
+Gawk is considered to be a standard Linux tool for processing text."
 HOMEPAGE="http://www.gnu.org/software/gawk/"
-SRC_URI="mirror://gnu/gawk/gawk-${VERSION}.tar.xz"
+SRC_URI="ftp://ftp.gnu.org/gnu/gawk/gawk-${VERSION}.tar.xz"
+
+src_install() {
+  cd ${B}
+  cyginstall
+  cd ${D}/usr/share/man/man1
+  echo ".so gawk.1" > awk.1
+}
