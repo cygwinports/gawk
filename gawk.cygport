@@ -1,6 +1,6 @@
 NAME="gawk"
-VERSION=4.1.4
-RELEASE=2
+VERSION=4.2.1
+RELEASE=1
 CATEGORY="Interpreters Base"
 SUMMARY="GNU awk, a pattern scanning and processing language"
 DESCRIPTION="The gawk package contains the GNU version of awk, a text
@@ -12,6 +12,7 @@ Install the gawk package if you need a text processing utility.
 Gawk is considered to be a standard Linux tool for processing text."
 HOMEPAGE="http://www.gnu.org/software/gawk/"
 SRC_URI="ftp://ftp.gnu.org/gnu/gawk/gawk-${VERSION}.tar.xz"
+PATCH_URI="4.2.1-automake.patch"
 
 # conflicts with newer texinfo-tex
 DISTCLEANFILES="doc/texinfo.tex"
@@ -21,6 +22,7 @@ gawk_CONTENTS="
   --exclude=html
   --exclude=*.html
   --exclude=*.pdf
+  etc/profile.d/gawk.*
   usr/bin/*awk*
   usr/lib/gawk/
   usr/libexec/awk/
@@ -47,7 +49,7 @@ src_compile() {
   cygautoreconf
   cd ${B}
   cygconf
-  cygmake
+  cygmake -j1
   cd ${B}/doc
   cygmake -j1 html pdf
   mkdir -p html/gawk{,inet}

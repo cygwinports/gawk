@@ -1,0 +1,66 @@
+--- origsrc/gawk-4.2.1/extension/configh.in	2018-02-25 11:06:58.000000000 -0600
++++ src/gawk-4.2.1/extension/configh.in	2018-02-27 03:28:38.040307100 -0600
+@@ -10,22 +10,6 @@
+ #endif
+ 
+ 
+-/* Define to 1 if translation of program messages to the user's native
+-   language is requested. */
+-#undef ENABLE_NLS
+-
+-/* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
+-   CoreFoundation framework. */
+-#undef HAVE_CFLOCALECOPYCURRENT
+-
+-/* Define to 1 if you have the Mac OS X function CFPreferencesCopyAppValue in
+-   the CoreFoundation framework. */
+-#undef HAVE_CFPREFERENCESCOPYAPPVALUE
+-
+-/* Define if the GNU dcgettext() function is already present or preinstalled.
+-   */
+-#undef HAVE_DCGETTEXT
+-
+ /* Define to 1 if you have the declaration of `dirfd', and to 0 if you don't.
+    */
+ #undef HAVE_DECL_DIRFD
+@@ -58,24 +42,12 @@
+ /* Define to 1 if you have the `GetSystemTimeAsFileTime' function. */
+ #undef HAVE_GETSYSTEMTIMEASFILETIME
+ 
+-/* Define if the GNU gettext() function is already present or preinstalled. */
+-#undef HAVE_GETTEXT
+-
+ /* Define to 1 if you have the `gettimeofday' function. */
+ #undef HAVE_GETTIMEOFDAY
+ 
+-/* Define if you have the iconv() function and it works. */
+-#undef HAVE_ICONV
+-
+ /* Define to 1 if you have the <inttypes.h> header file. */
+ #undef HAVE_INTTYPES_H
+ 
+-/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
+-#undef HAVE_LANGINFO_CODESET
+-
+-/* Define if your <locale.h> file defines LC_MESSAGES. */
+-#undef HAVE_LC_MESSAGES
+-
+ /* Define to 1 if you have the <limits.h> header file. */
+ #undef HAVE_LIMITS_H
+ 
+--- origsrc/gawk-4.2.1/extension/configure.ac	2018-02-25 11:06:25.000000000 -0600
++++ src/gawk-4.2.1/extension/configure.ac	2018-02-27 03:27:31.226842700 -0600
+@@ -52,13 +52,6 @@ dnl Set the programming language for che
+ dnl this only needs to be set once, since everything is in C.
+ AC_LANG([C])
+ 
+-dnl initialize GNU gettext
+-dnl this seems to help with finding MPFR on some systems, too.
+-AM_GNU_GETTEXT([external])
+-AM_GNU_GETTEXT_VERSION([0.19.7])
+-AM_LANGINFO_CODESET
+-gt_LC_MESSAGES
+-
+ dnl checks for structure members
+ AC_CHECK_MEMBERS([struct stat.st_blksize])
+ 
